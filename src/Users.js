@@ -84,6 +84,10 @@ export class UserView extends React.Component {
         <Form.Label>Vartotojo slapyvardis</Form.Label>
         <Form.Control type="text" name="username" value={this.state.username} maxLength="30" pattern={TEXT} title="Naudojami netinkami simboliai" onChange={this.handleInputChange}/> 
       </Form.Group>
+      {this.state.error &&
+        <Alert variant='danger'>
+        {this.state.error}
+        </Alert>}
       </Form>
     </Modal.Body>
     <Modal.Footer>

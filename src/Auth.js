@@ -8,7 +8,7 @@ import {API} from './const'
 export let loginContext = {user: "", id: -1, role: "guest", date: null};
 export function UserRole()
 {
-    if (window.localStorage.getItem("token") && window.localStorage.getItem("exp")<new Date().getTime() / 1000 )
+    if (window.localStorage.getItem("token") && window.localStorage.getItem("exp")>new Date().getTime() / 1000 )
     {
         loginContext = {id: window.localStorage.getItem("id"), role: window.localStorage.getItem("role")};
         if (loginContext.role === "admin")

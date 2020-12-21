@@ -18,8 +18,9 @@ export class Login extends React.Component {
     render(){
     if(this.state.redirect){
       this.props.forceUpdate(); 
-      return(<Redirect to = "/"/>)
+      return(<Redirect to = {this.state.redirect}/>)
     }
+    console.log(this.state.redirect)
     let form;
     let userRole = UserRole();
     if(userRole ===0)
@@ -86,7 +87,7 @@ export class Login extends React.Component {
             window.localStorage.setItem("id", jwt_decode(window.localStorage.getItem("token")).id)
             window.localStorage.setItem("role",  jwt_decode(window.localStorage.getItem("token")).role)
             window.localStorage.setItem("exp",  jwt_decode(window.localStorage.getItem("token")).exp)
-            this.setState({redirect: true})
+            this.setState({redirect: "/"})
           }else if (response.status === 400)
           {
             this.setState({error: "Klaidingi duomenys", isLoading: false});
@@ -95,10 +96,7 @@ export class Login extends React.Component {
             this.setState({error: "Vartotojas neegzistuoja", isLoading: false});
           }else{
             this.setState({error: "Serverio klaida", isLoading: false});
-          }
-          
-        
-        
+          }    
     }
     handleInputChange(event) {
         const target = event.target;

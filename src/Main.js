@@ -7,8 +7,9 @@ import {UserRole} from './Auth'
 import {Login, Logout} from './Login'
 import {UserView} from './Users'
 import {Signup} from './Signup'
-import {Home} from './Home'
+import {HomeView} from './Home'
 import {Four04} from './404'
+import {CarsView} from './Auto'
 import {
     BrowserRouter as Router,
     Switch,
@@ -32,8 +33,9 @@ export class App extends React.Component {
             <Route exact path="/logout" component={(props) => (<Logout forceUpdate={this.refresh} {...props}/>)}></Route>
             <Route exact path="/users/:id(\d+)" component={(props) => (<UserView forceUpdate={this.refresh} {...props}/>)}></Route>
             <Route exact path="/user" component={(props) => (<UserView forceUpdate={this.refresh} {...props}/>)}></Route>
-            <Route exact path="/" component={(props) => (<Home forceUpdate={this.refresh} {...props}/>)}></Route>
+            <Route exact path="/" component={(props) => (<HomeView forceUpdate={this.refresh} {...props}/>)}></Route>
             <Route exact path="/404" component={(props) => (<Four04 forceUpdate={this.refresh} {...props}/>)}></Route>
+            <Route exact path="/auto" component={(props) => (<CarsView forceUpdate={this.refresh} {...props}/>)}></Route>
             
             <Route path="/"><Redirect to = "/404"/></Route>
             </Switch>
@@ -41,16 +43,19 @@ export class App extends React.Component {
             route = <Switch>
             <Route exact path="/logout" component={(props) => (<Logout forceUpdate={this.refresh} {...props}/>)}></Route>
             <Route exact path="/user" component={(props) => (<UserView forceUpdate={this.refresh} {...props}/>)}></Route>
-            <Route exact path="/" component={(props) => (<Home forceUpdate={this.refresh} {...props}/>)}></Route>
+            <Route exact path="/" component={(props) => (<HomeView forceUpdate={this.refresh} {...props}/>)}></Route>
             <Route exact path="/404" component={(props) => (<Four04 forceUpdate={this.refresh} {...props}/>)}></Route>
+            <Route exact path="/auto" component={(props) => (<CarsView forceUpdate={this.refresh} {...props}/>)}></Route>
             <Route path="/"><Redirect to = "/404"/></Route>
+            
             </Switch>
         }else{
             route = <Switch>
             <Route exact path="/login" component={(props) => (<Login forceUpdate={this.refresh} {...props}/>)}></Route>
             <Route exact path="/signup" component={(props) => (<Signup forceUpdate={this.refresh} {...props}/>)}></Route>
-            <Route exact path="/" component={(props) => (<Home forceUpdate={this.refresh} {...props}/>)}></Route>
+            <Route exact path="/" component={(props) => (<HomeView forceUpdate={this.refresh} {...props}/>)}></Route>
             <Route exact path="/404" component={(props) => (<Four04 forceUpdate={this.refresh} {...props}/>)}></Route>
+            <Route exact path="/auto" component={(props) => (<CarsView forceUpdate={this.refresh} {...props}/>)}></Route>
             <Route path="/"><Redirect to = "/404"/></Route>
             </Switch>
         }

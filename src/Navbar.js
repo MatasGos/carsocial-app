@@ -27,7 +27,7 @@ export class MyNavbar extends React.Component {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="Pagrindinis">
           <Nav className="mr-auto">
-            <Nav.Link href="#home">Auto</Nav.Link>
+             <Nav.Link as={Link} to="/auto">Auto</Nav.Link>
             <Nav.Link href="#link">Mano Profilis</Nav.Link>
             
           </Nav>
@@ -54,7 +54,7 @@ export class MyNavbar extends React.Component {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="Pagrindinis">
           <Nav className="mr-auto">
-            <Nav.Link href="#home">Auto</Nav.Link>
+          <Nav.Link as={Link} to="/auto">Auto</Nav.Link>
             <Nav.Link href="#link">Mano Profilis</Nav.Link>
             
           </Nav>
@@ -77,7 +77,7 @@ export class MyNavbar extends React.Component {
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="Pagrindinis">
               <Nav className="mr-auto">
-                <Nav.Link href="#home">Auto</Nav.Link>
+                <Nav.Link as={Link} to="/auto">Auto</Nav.Link>
               </Nav>
               <Nav>
               <Nav.Link as={Link} to="/login">Prisijungti</Nav.Link>
