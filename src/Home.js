@@ -6,18 +6,44 @@ import {API, LOCAL, NUMBER, TEXT} from './const'
 import {login, setClient_id, UserRole} from './Auth'
 import jwt_decode from "jwt-decode";
 
+class CommentList extends React.Component {
+  constructor(props){
+    super(props)
+    this.state = {comments: this.props.comments}
+  }
+
+  render(){
+    let ret;
+    let test = []
+    let i;
+    if (!this.state.comments){
+    for (i = 0; i< this.state.comments.length; i++){
+      test.push(<option key = {this.state.comments[i].id}> </option>)
+  }
+}
+return test
+}
+}
 class PostUnit extends React.Component {
   constructor(props){
     super(props)
     this.state = {post: this.props.post, show: false, error: null, redirect: null, car: "", cars: "",
-      text: ""
+      text: "", comments: null, commentCount: false, showComment: false
     
     }
+    console.log(this.state.showComment)
     this.handleDelete = this.handleDelete.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.showComment = this.showComment.bind(this);
     this.getCar()
+    this.getComments()
+    this.setState({commentCount: false});
+    if (this.state.comments != null){
+      if(this.state.comments.length > 0)
+        this.setState({commentCount: this.state.comments.length});
+    }
   }
   render() 
   {
@@ -50,6 +76,19 @@ class PostUnit extends React.Component {
     </Modal.Footer>
   </Modal>
    
+   let modalShow = <Modal show={this.state.showComment} onHide={this.showComment}>
+    <Modal.Header closeButton>
+      <Modal.Title>Komentarai</Modal.Title>
+    </Modal.Header>
+    <Modal.Body>
+    
+    </Modal.Body>
+    <Modal.Footer>
+      <Button variant="primary" onClick={this.handleSave}>
+        Išsaugoti
+      </Button>
+    </Modal.Footer>
+  </Modal>
   
     
     return(  
@@ -76,6 +115,9 @@ class PostUnit extends React.Component {
        Ištrinti
       </Button>}
     </Card.Body>
+    <Card.Footer>
+      <small className="text-muted" onClick={this.showComment}>Komentarai: {this.state.comments !=null && <>{this.state.comments.length}</>}</small>
+    </Card.Footer>
     {modal}
   </Card>
   )}
@@ -131,6 +173,12 @@ async handleSave(){
       this.setState({error: "Serverio klaida", isLoading: false});
     }  
 }
+async showComment(event){
+  if(this.state.showComment){
+    this.getComments()
+  }
+  this.setState({showComment: !this.state.showComment})
+}
 async handleClick(event){
   this.setState({text: this.state.post.text})
   this.setState({show: !this.state.show})
@@ -165,6 +213,26 @@ async getCar(){
     this.setState({error: "Serverio klaida", isLoading: false});
   }  
 }
+async getComments(){
+  let response = await fetch(LOCAL+"post/"+this.state.post.id , {
+    method: 'GET',
+    headers: {
+      'Authorization': 'BEARER '+ window.localStorage.getItem("token"),
+      'Content-Type': 'application/json'
+    }
+  });
+  console.log()
+  if(response.status === 200){
+    let body = await response.json();
+    this.setState({error: "", comments: body})
+  }else if (response.status === 404)
+  {
+    this.setState({error: "Puslapis nerastas", isLoading: false});
+    this.setState({redirect: "/404"})
+  }else{
+    this.setState({error: "Serverio klaida", isLoading: false});
+  }  
+}
 }
 
 class CarsList extends React.Component {
@@ -179,7 +247,7 @@ class CarsList extends React.Component {
     let i;
     if (!this.state.car){
     for (i = 0; i< this.state.cars.length; i++){
-      test.push(<option key = {this.state.cars[i].id}>{this.state.cars[i].manufacturer+" "+this.state.cars[i].model+" "+this.state.cars[i].year+" "+
+      test.push(<option key = {this.state.cars[i].id} value={this.state.cars[i].id}>{this.state.cars[i].manufacturer+" "+this.state.cars[i].model+" "+this.state.cars[i].year+" "+
       this.state.cars[i].color}</option>)
   }
 }
@@ -195,7 +263,7 @@ export class HomeView extends React.Component {
         this.handleClick = this.handleClick.bind(this);
         this.handleSave = this.handleSave.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
-        this.state = ({isLoggedIn : UserRole(), cars:null, user:"", 
+        this.state = ({isLoggedIn : UserRole(), cars:null, user:"", car:null,
         redirect: null, error: null, load: false, body: null, show: false
       });
       this.getCars()
@@ -207,7 +275,6 @@ export class HomeView extends React.Component {
       return(<Redirect to = {this.state.redirect}/>)
     }
   
-    //{this.state.body.username}
     let post;
     let form;
     let modal
@@ -222,9 +289,9 @@ export class HomeView extends React.Component {
         <Form.Label>Naujas įrašas</Form.Label>
         <Form.Control as="textarea" rows={3} name="text" value={this.state.text} maxLength="500" pattern={TEXT} title="Netinkami simboliai" onChange={this.handleInputChange}/> 
         </Form.Group>
-        <Form.Group controlId="exampleForm.ControlSelect1">
+        <Form.Group controlId="exampleForm.ControlSelect1" >
         <Form.Label>Example select</Form.Label>
-        <Form.Control as="select">
+        <Form.Control as="select" name="car" key={this.state.car} value={this.state.car} onChange={this.handleInputChange}>
         {<CarsList cars={this.state.cars} forceUpdate={this.props.forceUpdate}/>}
       </Form.Control>
     </Form.Group>
@@ -270,13 +337,14 @@ export class HomeView extends React.Component {
         this.getCars()
       }
       console.log( !this.state.show)
-      this.setState({show: !this.state.show})
+      this.setState({show: !this.state.show, text: ""})
     }
     handleInputChange(event) {
-      
         const target = event.target;
         const value = target.value;
         const name = target.name;
+        console.log(target.name +"+"+target.value)
+
     
         this.setState({
           [name]: value
@@ -304,25 +372,20 @@ export class HomeView extends React.Component {
       handleEdit
       async handleSave(){
         const data = {
-            "manufacturer":this.state.manufacturer,
-            "model":this.state.model,
-            "vin":this.state.vin,
-            "plate":this.state.plate,
-            "year":this.state.year,
-            "color":this.state.color
+            "fk_car":0 ,
+            "text":this.state.text
           }
-        let response = await fetch(LOCAL+"cars/", {
+        let response = await fetch(LOCAL+"posts/", {
             method: 'POST',
             headers: {
               'Authorization': 'BEARER '+ window.localStorage.getItem("token"),
               'Content-Type': 'application/json'
             },
-            body: "["+JSON.stringify(data)+"]" // body data type must match "Content-Type" header
+            body: JSON.stringify(data) // body data type must match "Content-Type" header
           });
-          console.log(JSON.stringify(data))
           if(response.status === 200){
             this.setState({error: ""})
-            this.setState({redirect: "/auto"})
+            this.setState({redirect: "/"})
           }else if (response.status === 400)
           {
             this.setState({error: "Klaidingi duomenys", isLoading: false});
@@ -341,9 +404,7 @@ export class HomeView extends React.Component {
           'Content-Type': 'application/json'
         }
       });
-      console.log(":(")
       if(response.status === 200){
-        console.log(":)")
         let body = await response.json();
         this.setState({error: "", cars: body})
       }else if (response.status === 404)

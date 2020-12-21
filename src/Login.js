@@ -5,19 +5,20 @@ import {Alert} from 'react-bootstrap';
 import {API, LOCAL} from './const'
 import {login, setClient_id, UserRole} from './Auth'
 import jwt_decode from "jwt-decode";
+import './login.css';
 
 export class Login extends React.Component {
     constructor(props){
         super(props)
         this.state = ({isLoggedIn : UserRole(), email: "", password: "", redirect: null, error: null, lol: "", load: false});
         this.handleLogin = this.handleLogin.bind(this);
-        this.handleInputChange = this.handleInputChange.bind(this);       
+        this.handleInputChange = this.handleInputChange.bind(this);
     }
-    
+
 
     render(){
     if(this.state.redirect){
-      this.props.forceUpdate(); 
+      this.props.forceUpdate();
       return(<Redirect to = {this.state.redirect}/>)
     }
     console.log(this.state.redirect)
@@ -25,7 +26,6 @@ export class Login extends React.Component {
     let userRole = UserRole();
     if(userRole ===0)
     {
-      
         form =  <Form>
         <Form.Group controlId="formBasicEmail">
           <Form.Label>El. paštas</Form.Label>
@@ -34,7 +34,7 @@ export class Login extends React.Component {
           <Form.Text className="text-muted">
           </Form.Text>
         </Form.Group>
-      
+
         <Form.Group controlId="formBasicPassword">
           <Form.Label>Slaptažodis</Form.Label>
           <Form.Control type="password" name="password" placeholder="Slaptažodis" onChange={this.handleInputChange}
@@ -51,13 +51,14 @@ export class Login extends React.Component {
          Prisijungti
         </Button>
       </Form>
+
       }
       else
       {
           form = <Redirect to="/"/>
       }
       return (
-        <div>
+        <div id="login">
         {form}
         </div>
       );
@@ -96,13 +97,13 @@ export class Login extends React.Component {
             this.setState({error: "Vartotojas neegzistuoja", isLoading: false});
           }else{
             this.setState({error: "Serverio klaida", isLoading: false});
-          }    
+          }
     }
     handleInputChange(event) {
         const target = event.target;
         const value = target.value;
         const name = target.name;
-    
+
         this.setState({
           [name]: value
         });
@@ -111,8 +112,8 @@ export class Login extends React.Component {
   export class Logout extends React.Component {
     constructor(props){
       super(props)
-      window.localStorage.clear()  
-      this.props.forceUpdate();    
+      window.localStorage.clear()
+      this.props.forceUpdate();
       //this.props.history.replace("/")
     }
 

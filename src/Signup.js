@@ -5,6 +5,7 @@ import {Alert} from 'react-bootstrap';
 import {API, LOCAL, NUMBER, TEXT} from './const'
 import {login, setClient_id, UserRole} from './Auth'
 import jwt_decode from "jwt-decode";
+import './signup.css';
 
 export class Signup extends React.Component {
     constructor(props){
@@ -13,7 +14,7 @@ export class Signup extends React.Component {
         redirect: null, error: null, lol: "", load: false
       });
         this.handleSignup = this.handleSignup.bind(this);
-        this.handleInputChange = this.handleInputChange.bind(this);       
+        this.handleInputChange = this.handleInputChange.bind(this);
     }
   //   {
   //     "name": "aaaaa@admin.admin",
@@ -25,37 +26,37 @@ export class Signup extends React.Component {
 
     render(){
     if(this.state.redirect){
-      this.props.forceUpdate(); 
+      this.props.forceUpdate();
       return(<Redirect to = "/login"/>)
     }
     let form;
-      
+
       form = <Form>
       <Form.Group controlId="exampleForm.ControlInput1">
         <Form.Label>El. paštas</Form.Label>
-        <Form.Control type="email" name="email" placeholder="Įveskite El. paštą" maxLength="40" required="required" onChange={this.handleInputChange}/> 
+        <Form.Control type="email" name="email" placeholder="Įveskite El. paštą" maxLength="40" required="required" onChange={this.handleInputChange}/>
       </Form.Group>
       <Form.Group controlId="exampleForm.ControlInput1">
         <Form.Label>Slaptažodis</Form.Label>
-        <Form.Control type="password" name="password" placeholder="Įveskite slaptažodį" maxLength="40" required="required" onChange={this.handleInputChange}/> 
+        <Form.Control type="password" name="password" placeholder="Įveskite slaptažodį" maxLength="40" required="required" onChange={this.handleInputChange}/>
       </Form.Group>
       <Form.Group controlId="exampleForm.ControlInput1">
         <Form.Label>Tel. numeris</Form.Label>
-        <Form.Control type="text" name="phone" placeholder="Įveskite numerį" maxLength="12" pattern={NUMBER} title="Netinkamas numeris" onChange={this.handleInputChange}/> 
+        <Form.Control type="text" name="phone" placeholder="Įveskite numerį" maxLength="12" pattern={NUMBER} title="Netinkamas numeris" onChange={this.handleInputChange}/>
       </Form.Group>
       <Form.Group controlId="exampleForm.ControlInput1">
         <Form.Label>Vardas</Form.Label>
-        <Form.Control type="text" name="name" placeholder="Įveskite vardą" maxLength="50" pattern={TEXT} title="Naudojami netinkami simboliai" onChange={this.handleInputChange}/> 
+        <Form.Control type="text" name="name" placeholder="Įveskite vardą" maxLength="50" pattern={TEXT} title="Naudojami netinkami simboliai" onChange={this.handleInputChange}/>
       </Form.Group>
       <Form.Group controlId="exampleForm.ControlInput1">
         <Form.Label>Vartotojo slapyvardis</Form.Label>
-        <Form.Control type="text" name="username" placeholder="Įveskite unikalų vardą" maxLength="30" pattern={TEXT} title="Naudojami netinkami simboliai" onChange={this.handleInputChange}/> 
+        <Form.Control type="text" name="username" placeholder="Įveskite unikalų vardą" maxLength="30" pattern={TEXT} title="Naudojami netinkami simboliai" onChange={this.handleInputChange}/>
       </Form.Group>
       <Button variant="primary" type="submit" onClick={this.handleSignup}>Registruotis</Button>
       </Form>
 
       return (
-        <div>
+        <div id="register">
         {form}
         </div>
       );
@@ -92,13 +93,13 @@ export class Signup extends React.Component {
             this.setState({error: "Puslapis nerastas", isLoading: false});
           }else{
             this.setState({error: "Serverio klaida", isLoading: false});
-          }  
+          }
     }
     handleInputChange(event) {
         const target = event.target;
         const value = target.value;
         const name = target.name;
-    
+
         this.setState({
           [name]: value
         });
