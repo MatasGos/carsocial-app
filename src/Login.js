@@ -5,7 +5,6 @@ import {Alert} from 'react-bootstrap';
 import {API, LOCAL} from './const'
 import {login, setClient_id, UserRole} from './Auth'
 import jwt_decode from "jwt-decode";
-import './login.css';
 
 export class Login extends React.Component {
     constructor(props){
@@ -26,7 +25,7 @@ export class Login extends React.Component {
     let userRole = UserRole();
     if(userRole ===0)
     {
-        form =  <Form>
+        form =  <div className="mb-4"><Form >
         <Form.Group controlId="formBasicEmail">
           <Form.Label>El. paštas</Form.Label>
           <Form.Control type="email" name="email" placeholder="Įvesti El. paštas" onChange={this.handleInputChange}
@@ -51,6 +50,7 @@ export class Login extends React.Component {
          Prisijungti
         </Button>
       </Form>
+      </div>
 
       }
       else
@@ -58,8 +58,12 @@ export class Login extends React.Component {
           form = <Redirect to="/"/>
       }
       return (
+        <div className='mt-5 mb-5'>
+        <div className="container" >
         <div id="login">
         {form}
+        </div>
+        </div>
         </div>
       );
     }

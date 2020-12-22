@@ -110,10 +110,8 @@ class CarUnit extends React.Component {
           'Content-Type': 'application/json'
         },
       });
-      console.log(response)
       //let body = await response.json();
       if(response.status === 200){
-        console.log("nice")
         this.setState({error: "", redirect: "/auto", vin: this.state.car.vin, plate: this.state.car.plate, 
         color: this.state.car.color, manufacturer: this.state.car.manufacturer, model: this.state.car.model})
         this.setState({redirect: "/auto"})
@@ -312,7 +310,6 @@ export class CarsView extends React.Component {
             },
             body: "["+JSON.stringify(data)+"]" // body data type must match "Content-Type" header
           });
-          console.log(JSON.stringify(data))
           if(response.status === 200){
             this.setState({error: ""})
             this.setState({redirect: "/auto"})
