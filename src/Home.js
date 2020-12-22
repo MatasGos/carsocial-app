@@ -6,6 +6,44 @@ import {API, LOCAL, NUMBER, TEXT} from './const'
 import {login, setClient_id, UserRole} from './Auth'
 import jwt_decode from "jwt-decode";
 
+class CommentUnit extends React.Component {
+  constructor(props){
+    super(props)
+    this.handleDel = this.handleDel.bind(this);
+    this.state = {id: this.props.id}
+  }
+  render(){
+    if(this.state.redirect){
+      this.props.forceUpdate(); 
+      return(<Redirect to = {this.state.redirect}/>)
+    }
+    return(<Button size="sm" variant="primary" onClick={this.handleDel}>Ištrinti</Button>)
+  }
+
+async handleDel()
+  {
+    let response = await fetch(LOCAL+"comments/"+this.state.id, {   
+        method: 'DELETE',
+        headers: {
+          'Authorization': 'BEARER '+ window.localStorage.getItem("token"),
+          'Content-Type': 'application/json'
+        },
+      });
+      //let body = await response.json();
+      if(response.status === 200){
+        this.setState({error: ""})
+        this.setState({redirect: "/"})
+      }else if (response.status === 400)
+      {
+        this.setState({error: "Klaidingi duomenys", isLoading: false});
+      }else if (response.status === 404)
+      {
+        this.setState({error: "Puslapis nerastas", isLoading: false});
+      }else{
+        this.setState({error: "Serverio klaida", isLoading: false});
+      }  
+  }
+}
 class CommentList extends React.Component {
   constructor(props){
     super(props)
@@ -15,27 +53,37 @@ class CommentList extends React.Component {
   render(){
     let ret;
     let test = []
+    
     let i;
-    if (!this.state.comments){
+    if (this.state.comments){
     for (i = 0; i< this.state.comments.length; i++){
-      test.push(<option key = {this.state.comments[i].id}> </option>)
+      let canDelete = this.state.comments[i].fk_user == window.localStorage.getItem("id") 
+      || window.localStorage.getItem("role") == "admin"
+      test.push(<><h4>
+        {this.state.comments[i].username}</h4>
+  <h6>{this.state.comments[i].text}</h6>{canDelete && 
+  <CommentUnit id={this.state.comments[i].id} forceUpdate={this.props.forceUpdate}/>}</>)
+
+// test.push(<><Modal.Body>{this.state.comments[i].username}</Modal.Body>
+//   <Modal.Header>{this.state.comments[i].text}</Modal.Header></>)
   }
 }
 return test
 }
+
 }
 class PostUnit extends React.Component {
   constructor(props){
     super(props)
     this.state = {post: this.props.post, show: false, error: null, redirect: null, car: "", cars: "",
-      text: "", comments: null, commentCount: false, showComment: false
+      text: "", comments: null, commentCount: false, showComment: false, commentText: ""
     
     }
-    console.log(this.state.showComment)
     this.handleDelete = this.handleDelete.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleSaveComment = this.handleSaveComment.bind(this);
     this.showComment = this.showComment.bind(this);
     this.getCar()
     this.getComments()
@@ -44,6 +92,7 @@ class PostUnit extends React.Component {
       if(this.state.comments.length > 0)
         this.setState({commentCount: this.state.comments.length});
     }
+    this.getCar()
   }
   render() 
   {
@@ -53,7 +102,7 @@ class PostUnit extends React.Component {
     }
     const canEdit = this.state.post.fkuser === window.localStorage.getItem("id") || window.localStorage.getItem("role") === "admin"
 
-    let modal = <Modal show={this.state.show} onHide={this.handleClick}>
+    let modal = <Modal show={this.state.show} onHide={this.handleClick} >
     <Modal.Header closeButton>
       <Modal.Title>Redaguoti įrašą</Modal.Title>
     </Modal.Header>
@@ -75,22 +124,31 @@ class PostUnit extends React.Component {
       </Button>
     </Modal.Footer>
   </Modal>
-   
-   let modalShow = <Modal show={this.state.showComment} onHide={this.showComment}>
+
+   let modalShow
+   if(this.state.showComment){
+   modalShow = <Modal show={this.state.showComment} onHide={this.showComment} >
     <Modal.Header closeButton>
       <Modal.Title>Komentarai</Modal.Title>
     </Modal.Header>
     <Modal.Body>
-    
+    {<CommentList comments={this.state.comments} forceUpdate={this.props.forceUpdate}/>}
     </Modal.Body>
     <Modal.Footer>
-      <Button variant="primary" onClick={this.handleSave}>
+      <Form>
+      <Form.Group controlId="exampleForm.ControlTextarea1" >
+        <Form.Label>Naujas Komentaras</Form.Label>
+        <Form.Control as="textarea" rows={3} name="commentText" value={this.state.commentText} maxLength="500" pattern={TEXT} title="Netinkami simboliai" onChange={this.handleInputChange}/> 
+        </Form.Group>
+        <Button variant="primary" onClick={this.handleSaveComment}>
         Išsaugoti
       </Button>
+      </Form>
+      
     </Modal.Footer>
   </Modal>
+   }
   
-    
     return(  
     <Card
     bg="light"
@@ -119,8 +177,38 @@ class PostUnit extends React.Component {
       <small className="text-muted" onClick={this.showComment}>Komentarai: {this.state.comments !=null && <>{this.state.comments.length}</>}</small>
     </Card.Footer>
     {modal}
+    {modalShow}
   </Card>
   )}
+
+  async handleSaveComment()
+  {
+    const data = {
+      "text":this.state.commentText,
+      "fk_post":this.state.post.id
+    }
+    let response = await fetch(LOCAL+"comments/", {   
+        method: 'POST',
+        headers: {
+          'Authorization': 'BEARER '+ window.localStorage.getItem("token"),
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+      //let body = await response.json();
+      if(response.status === 200){
+        this.setState({error: ""})
+        this.setState({redirect: "/"})
+      }else if (response.status === 400)
+      {
+        this.setState({error: "Klaidingi duomenys", isLoading: false});
+      }else if (response.status === 404)
+      {
+        this.setState({error: "Puslapis nerastas", isLoading: false});
+      }else{
+        this.setState({error: "Serverio klaida", isLoading: false});
+      }  
+  }
   async handleDelete(){
     let response = await fetch(LOCAL+"posts/"+this.state.post.id, {
         method: 'DELETE',
@@ -130,7 +218,6 @@ class PostUnit extends React.Component {
           'Content-Type': 'application/json'
         },
       });
-      console.log(response)
       //let body = await response.json();
       if(response.status === 200){
         this.setState({error: "", redirect: "/", vin: this.state.car.vin, plate: this.state.car.plate, 
@@ -189,7 +276,6 @@ handleInputChange(event) {
   const target = event.target;
   const value = target.value;
   const name = target.name;
-
   this.setState({
     [name]: value
   });
@@ -221,7 +307,6 @@ async getComments(){
       'Content-Type': 'application/json'
     }
   });
-  console.log()
   if(response.status === 200){
     let body = await response.json();
     this.setState({error: "", comments: body})
@@ -247,7 +332,8 @@ class CarsList extends React.Component {
     let i;
     if (!this.state.car){
     for (i = 0; i< this.state.cars.length; i++){
-      test.push(<option key = {this.state.cars[i].id} value={this.state.cars[i].id}>{this.state.cars[i].manufacturer+" "+this.state.cars[i].model+" "+this.state.cars[i].year+" "+
+      test.push(<option key = {this.state.cars[i].id} value={this.state.cars[i].id}>
+        {this.state.cars[i].manufacturer+" "+this.state.cars[i].model+" "+this.state.cars[i].year+" "+
       this.state.cars[i].color}</option>)
   }
 }
@@ -336,14 +422,12 @@ export class HomeView extends React.Component {
       if(!this.state.show){
         this.getCars()
       }
-      console.log( !this.state.show)
       this.setState({show: !this.state.show, text: ""})
     }
     handleInputChange(event) {
         const target = event.target;
         const value = target.value;
         const name = target.name;
-        console.log(target.name +"+"+target.value)
 
     
         this.setState({
