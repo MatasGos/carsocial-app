@@ -28,16 +28,10 @@ export class MyNavbar extends React.Component {
         <Navbar.Collapse id="Pagrindinis">
           <Nav className="mr-auto">
              <Nav.Link as={Link} to="/auto">Auto</Nav.Link>
-            <Nav.Link href="#link">Mano Profilis</Nav.Link>
-            
           </Nav>
           <Nav>
           <NavDropdown title="Mano Paskyra" id="basic-nav-dropdown">
               <NavDropdown.Item as={Link} to="/user">Peržiūreti informaciją</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">Keisti nustatymus</NavDropdown.Item>
-              <NavDropdown.Divider />
-              
-              <NavDropdown.Item as={Link} to="/users">Vartotojų sąrašas</NavDropdown.Item>
               <NavDropdown.Divider />
               
               <NavDropdown.Item as={Link} to="/logout">Atsijungti</NavDropdown.Item>
@@ -55,13 +49,11 @@ export class MyNavbar extends React.Component {
         <Navbar.Collapse id="Pagrindinis">
           <Nav className="mr-auto">
           <Nav.Link as={Link} to="/auto">Auto</Nav.Link>
-            <Nav.Link href="#link">Mano Profilis</Nav.Link>
             
           </Nav>
           <Nav>
           <NavDropdown title="Mano Paskyra" id="basic-nav-dropdown">
             <NavDropdown.Item as={Link} to="/user">Peržiūreti informaciją</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">Keisti nustatymus</NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item as={Link} to="/logout">Atsijungti</NavDropdown.Item>
             </NavDropdown>
@@ -105,44 +97,4 @@ export default App;
 
 
 
-
-
-// const MyNavbar = ({ children }) => {
-//     return(
-//         <Navbar bg="light" expand="lg">
-//         <Navbar.Brand href="#home">Pagrindinis</Navbar.Brand>
-//         <Navbar.Toggle aria-controls="basic-navbar-nav" />
-//         <Navbar.Collapse id="Pagrindinis">
-//           <Nav className="mr-auto">
-//             <Nav.Link href="#home">Auto</Nav.Link>
-//             <Nav.Link href="#link">Mano Profilis</Nav.Link>
-//             <NavDropdown title="Mano Paskyra" id="basic-nav-dropdown">
-//               <NavDropdown.Item href="#action/3.1">Keisti informacija</NavDropdown.Item>
-//               <NavDropdown.Item href="#action/3.2">Keisti nustatymus</NavDropdown.Item>
-//               <NavDropdown.Item href="#action/3.3">Your Profile</NavDropdown.Item>
-//             </NavDropdown>
-//           </Nav>
-//           <Form inline>
-//             <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-//           </Form>
-//         </Navbar.Collapse>
-//       </Navbar>
-//       );
-// };
-
-// const App = () => (
-//     <Container className="p-3">
-//       <Jumbotron>
-//         <h1 className="header">Welcome To React-Bootstrap</h1>
-//         <MyNavbar>
-//           We now have Toasts
-//           <span role="img" aria-label="tada">
-//             🎉
-//           </span>
-//         </MyNavbar>
-//       </Jumbotron>
-//     </Container>
-//   );
-
-// export default App;
 
