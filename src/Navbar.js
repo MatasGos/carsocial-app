@@ -7,6 +7,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
 import {UserRole} from './Auth'
+import { ReactComponent as HomeIcon } from './icon.svg';
 import {
   BrowserRouter as Router,
   Switch,
@@ -22,7 +23,8 @@ export class MyNavbar extends React.Component {
         let role = UserRole();
         if (role === 2){
         return (
-        <Navbar bg="dark " variant="dark" >
+        <Navbar bg="dark " variant="dark" className="mr-auto" expand="lg" >
+          <Nav.Link as={Link} to="/"><HomeIcon height={20}/></Nav.Link>
         <Navbar.Brand as={Link} to="/">Pagrindinis</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="Pagrindinis">
@@ -43,7 +45,8 @@ export class MyNavbar extends React.Component {
       )
      }else if (role === 1){
         return (
-            <Navbar bg="dark " variant="dark" >
+            <Navbar bg="dark " variant="dark" expand="lg" >
+              <Nav.Link as={Link} to="/"><HomeIcon height={20}/></Nav.Link>
         <Navbar.Brand as={Link} to="/">Pagrindinis</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="Pagrindinis">
@@ -64,12 +67,14 @@ export class MyNavbar extends React.Component {
           )
         }else{
         return (
-            <Navbar bg="dark " variant="dark" >
+            <Navbar bg="dark " variant="dark" expand="lg" >
+              <Nav.Link as={Link} to="/"><HomeIcon height={20}/></Nav.Link>
             <Navbar.Brand as={Link} to="/">Pagrindinis</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="Pagrindinis">
               <Nav className="mr-auto">
                 <Nav.Link as={Link} to="/auto">Auto</Nav.Link>
+                
               </Nav>
               <Nav>
               <Nav.Link as={Link} to="/login">Prisijungti</Nav.Link>

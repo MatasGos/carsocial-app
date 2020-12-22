@@ -367,16 +367,16 @@ export class HomeView extends React.Component {
       modal = 
       <Modal show={this.state.show} onHide={this.handleClick}>
       <Modal.Header closeButton>
-        <Modal.Title>Redaguoti įrašą</Modal.Title>
+        <Modal.Title>Naujas įrašas</Modal.Title>
       </Modal.Header>
       <Modal.Body>
       <Form>
         <Form.Group controlId="exampleForm.ControlTextarea1">
-        <Form.Label>Naujas įrašas</Form.Label>
+        <Form.Label>Įrašo Tekstas</Form.Label>
         <Form.Control as="textarea" rows={3} name="text" value={this.state.text} maxLength="500" pattern={TEXT} title="Netinkami simboliai" onChange={this.handleInputChange}/> 
         </Form.Group>
         <Form.Group controlId="exampleForm.ControlSelect1" >
-        <Form.Label>Example select</Form.Label>
+        <Form.Label>Automobilis</Form.Label>
         <Form.Control as="select" name="car" key={this.state.car} value={this.state.car} onChange={this.handleInputChange}>
         {<CarsList cars={this.state.cars} forceUpdate={this.props.forceUpdate}/>}
       </Form.Control>

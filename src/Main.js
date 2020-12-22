@@ -11,6 +11,7 @@ import {HomeView} from './Home'
 import {Four04} from './404'
 import {CarsView} from './Auto'
 import {Footer} from './Footer'
+import {Image} from './test'
 import {
     BrowserRouter as Router,
     Switch,
@@ -37,7 +38,7 @@ export class App extends React.Component {
             <Route exact path="/" component={(props) => (<HomeView forceUpdate={this.refresh} {...props}/>)}></Route>
             <Route exact path="/404" component={(props) => (<Four04 forceUpdate={this.refresh} {...props}/>)}></Route>
             <Route exact path="/auto" component={(props) => (<CarsView forceUpdate={this.refresh} {...props}/>)}></Route>
-            
+            <Route exact path="/test" component={(props) => (<Image forceUpdate={this.refresh} {...props}/>)}></Route>
             <Route path="/"><Redirect to = "/404"/></Route>
             </Switch>
         } else if(userRole === 1){
@@ -47,6 +48,7 @@ export class App extends React.Component {
             <Route exact path="/" component={(props) => (<HomeView forceUpdate={this.refresh} {...props}/>)}></Route>
             <Route exact path="/404" component={(props) => (<Four04 forceUpdate={this.refresh} {...props}/>)}></Route>
             <Route exact path="/auto" component={(props) => (<CarsView forceUpdate={this.refresh} {...props}/>)}></Route>
+            <Route exact path="/test" component={(props) => (<Image forceUpdate={this.refresh} {...props}/>)}></Route>
             <Route path="/"><Redirect to = "/404"/></Route>
             
             </Switch>
@@ -57,6 +59,7 @@ export class App extends React.Component {
             <Route exact path="/" component={(props) => (<HomeView forceUpdate={this.refresh} {...props}/>)}></Route>
             <Route exact path="/404" component={(props) => (<Four04 forceUpdate={this.refresh} {...props}/>)}></Route>
             <Route exact path="/auto" component={(props) => (<CarsView forceUpdate={this.refresh} {...props}/>)}></Route>
+            <Route exact path="/test" component={(props) => (<Image forceUpdate={this.refresh} {...props}/>)}></Route>
             <Route path="/"><Redirect to = "/404"/></Route>
             </Switch>
         }
@@ -72,5 +75,3 @@ export class App extends React.Component {
         );
     }
 }
-
-

@@ -10,6 +10,10 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+html{
+  position: relative;
+  min-height: 100%;
+}
 .footer {
   position: absolute;
   left: 0;
