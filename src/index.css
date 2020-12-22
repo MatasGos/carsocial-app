@@ -10,3 +10,20 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.footer {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 80px;
+  width: 100%;
+  vertical-align: middle;
+  font-family: 'Fira Sans', sans-serif;
+}
+.navbar {
+  font-family: 'Rokkitt', serif;
+}
+
+body {
+  margin-bottom: 150px;
+  font-family: 'Ubuntu Mono', monospace;
+}

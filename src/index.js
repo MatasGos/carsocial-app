@@ -6,8 +6,10 @@ import {
   BrowserRouter as Router
 } from "react-router-dom";
 
+
 // Importing the Bootstrap CSS
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './index.css';
 
 //ReactDOM.render(<NavBar />, document.getElementById('root'));
 ReactDOM.render(

@@ -5,7 +5,7 @@ import {Alert} from 'react-bootstrap';
 import {API, LOCAL, NUMBER, TEXT} from './const'
 import {login, setClient_id, UserRole} from './Auth'
 import jwt_decode from "jwt-decode";
-import './signup.css';
+//import './signup.css';
 
 export class Signup extends React.Component {
     constructor(props){
@@ -56,8 +56,12 @@ export class Signup extends React.Component {
       </Form>
 
       return (
-        <div id="register">
+        <div className='mt-5 mb-5'>
+          <div className="container" >
+        <div id="register" className="mb-4">
         {form}
+        </div>
+        </div>
         </div>
       );
     }

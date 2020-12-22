@@ -10,6 +10,7 @@ import {Signup} from './Signup'
 import {HomeView} from './Home'
 import {Four04} from './404'
 import {CarsView} from './Auto'
+import {Footer} from './Footer'
 import {
     BrowserRouter as Router,
     Switch,
@@ -63,11 +64,12 @@ export class App extends React.Component {
         return(
         <div>
             <MyNavbar/>
-            <div className="bodypage">
+            <div className="bodypage mb-4">
             {route}
             </div>
+            <Footer/>
         </div>
-            );
+        );
     }
 }
 
