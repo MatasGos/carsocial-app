@@ -196,7 +196,7 @@ class PostUnit extends React.Component {
         body: JSON.stringify(data)
       });
       //let body = await response.json();
-      if(response.status === 200){
+      if(response.status === 201){
         this.setState({error: ""})
         this.setState({redirect: "/"})
       }else if (response.status === 400)
@@ -467,7 +467,7 @@ export class HomeView extends React.Component {
             },
             body: JSON.stringify(data) // body data type must match "Content-Type" header
           });
-          if(response.status === 200){
+          if(response.status === 201){
             this.setState({error: ""})
             this.setState({redirect: "/"})
           }else if (response.status === 400)

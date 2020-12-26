@@ -27,7 +27,7 @@ export class Signup extends React.Component {
     render(){
     if(this.state.redirect){
       this.props.forceUpdate();
-      return(<Redirect to = "/login"/>)
+      return(<Redirect to = "/"/>)
     }
     let form;
 
@@ -86,7 +86,7 @@ export class Signup extends React.Component {
             body: "["+JSON.stringify(data)+"]" // body data type must match "Content-Type" header
           });
           //let body = await response.json();
-          if(response.status === 200){
+          if(response.status === 201){
             this.setState({error: ""})
             this.setState({redirect: true})
           }else if (response.status === 400)
